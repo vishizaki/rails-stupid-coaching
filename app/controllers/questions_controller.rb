@@ -4,18 +4,14 @@ class QuestionsController < ApplicationController
 
   def answer
     @question = params[:question]
-    @answer = coach_answer(@question)
-  end
-
-  private
-
-  def coach_answer(question)
-    if question == 'I am going to work'
-      return 'Great!'
-    elsif question.split('').include?('?')
-      return 'Silly question, get dressed and go to work!'
+    if @question.blank?
+      @answer = "I can't hear you!"
+    elsif @question =~ /i am going to work/i #i at the end means case insensitive, ou podemos usar o @question.match(regex)
+      @answer = "Great!"
+    elsif @question.ends_with?("?")
+      @answer = "Silly question, get dressed and go to work!"
     else
-      return "I don't care, get dressed and go to work!"
+      @answer = "I don't care, get dressed and go to work!"
     end
   end
 end
